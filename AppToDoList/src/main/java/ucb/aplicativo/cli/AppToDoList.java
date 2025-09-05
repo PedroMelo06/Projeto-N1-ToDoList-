@@ -41,10 +41,18 @@ public class AppToDoList {
                     System.out.println("Tarefa criada com sucesso: " + nova.getTitulo());
                 }
 
-                case 2 -> servico.listarTarefas();
+                case 2 -> {
+                    List<Tarefas> tarefas = servico.listarTarefas();
+                    if (tarefas.isEmpty()) {
+                        System.out.println("Nenhuma tarefa cadastrada.");
+                    } else {
+                        System.out.println("Lista de tarefas: ");
+                        tarefas.forEach(t -> System.out.println(t));
+                    }
+                }
 
                 case 3 -> {
-                    System.out.print("ID da tarefa a modificar: ");
+                    System.out.print("ID da tarefa a atualizar: ");
                     int idTarefaAtualizar = sc.nextInt();
                     sc.nextLine();
                     System.out.print("Novo titulo: ");
@@ -52,6 +60,7 @@ public class AppToDoList {
                     System.out.print("Nova descricao: ");
                     String novaDescricao = sc.nextLine();
                     servico.atualizarTarefa(idTarefaAtualizar, novoTitulo, novaDescricao);
+                    System.out.println("Tarefa atualizada com sucesso!");
                 }
 
                 case 4 -> {
@@ -59,21 +68,25 @@ public class AppToDoList {
                     int idRemoverTarefa = sc.nextInt();
                     sc.nextLine();
                     servico.removerTarefa(idRemoverTarefa);
+                    System.out.println("Tarefa removida com sucesso!");
                 }
 
                 case 5 -> {
-                    System.out.print("ID da tarefa a concluir: ");
-                    int idConcluirTarefa = sc.nextInt();
+                    System.out.print("ID da tarefa a pesquisar: ");
+                    int idPesquisarTarefa = sc.nextInt();
                     sc.nextLine();
-                    servico.marcarComoConcluida(idConcluirTarefa);
+                }
+                
+                case 6 -> {
+                    servico.listarTarefasConcluidas();
                 }
 
-                case 0 -> System.out.println("Finalizando sistema...");
+                case 7 -> System.out.println("Finalizando sistema...");
 
                 default -> System.out.println("Opção inválida!");
             }
 
-        } while (opcao != 0);
+        } while(false);
 
         sc.close();
     }
