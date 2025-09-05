@@ -1,13 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package ucb.aplicativo.control;
 
+import ucb.aplicativo.model.Tarefas;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TarefasServico {
-
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
+    private List<Tarefas> tarefas = new ArrayList<>();
+    private Long contadorId = 1L;
+    
+    public Tarefas criarTarefa(String titulo, String descricao){
+        
+        Tarefas tarefa = new Tarefas(contadorId++, titulo, descricao, false);
+        tarefas.add(tarefa);
+        return tarefa;
+    }    
 }
+    
