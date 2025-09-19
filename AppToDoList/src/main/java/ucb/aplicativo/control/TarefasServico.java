@@ -15,6 +15,34 @@ public class TarefasServico {
         tarefas.add(tarefa);
         return tarefa;
     }    
+    public List<Tarefas> listarTarefas() {
+        return new ArrayList<>(tarefas);
+    }
     
+    public void atualizarTarefa(Long id, String novoTitulo, String novaDescricao, Boolean completa){
+        for (Tarefas tarefa : tarefas){
+            if(Objects.equals(tarefa.getId(), id)){
+                if(novoTitulo != null){
+                    tarefa.setTitulo(novoTitulo);
+                }
+                if(novaDescricao != null){
+                    tarefa.setDescricao(novaDescricao);
+                }
+                if(completa != null){
+                    tarefa.setCompleta(completa);
+                }
+                break;
+            }
+        }
+    }
+    
+    public void removerTarefa(Long id){
+        for(int i = 0; i < tarefas.size(); i++){
+            if(Objects.equals(tarefas.get(i).getId(), id)){
+                tarefas.remove(i);
+                break;
+            }
+        }
+    }
 }
     
