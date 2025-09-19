@@ -2,6 +2,7 @@ package ucb.aplicativo.cli;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import ucb.aplicativo.model.Tarefas;
@@ -42,13 +43,20 @@ public class AppToDoList {
                 }
 
                 case 2 -> {
+                    System.out.println();
+                    System.out.println("--- Lista de Todas as Tarefas ---");
                     List<Tarefas> tarefas = servico.listarTarefas();
                     if (tarefas.isEmpty()) {
-                        System.out.println("Nenhuma tarefa cadastrada.");
+                        System.out.println("Nenhuma tarefa encontrada.");
                     } else {
-                        System.out.println("Lista de tarefas: ");
-                        tarefas.forEach(t -> System.out.println(t));
-                    }
+                        for (Tarefas t : tarefas) {
+                            String status = t.isCompleta() ? "Concluída" : "Pendente";
+                            System.out.println("ID: " + t.getId() +
+                                               " | Título: " + t.getTitulo() +
+                                               " | Descrição: " + t.getDescricao() +
+                                               " | Status: " + status);
+                            }
+                        }
                 }
 
                 case 3 -> {
@@ -59,9 +67,19 @@ public class AppToDoList {
                     String novoTitulo = sc.nextLine();
                     System.out.print("Nova descricao: ");
                     String novaDescricao = sc.nextLine();
+                    System.out.print("Nova situacao (Completa(s) ou Incompleta(n)): ");
+                    String statusInput = sc.nextLine();
                     Boolean completa = null;
-                    servico.atualizarTarefa(idTarefaAtualizar, novoTitulo, novaDescricao, completa);
-                    System.out.println("Tarefa atualizada com sucesso!");
+                    if (statusInput.equalsIgnoreCase("s")) {
+                            completa = true;
+                        } else if (statusInput.equalsIgnoreCase("n")) {
+                            completa = false;
+                        } else {
+                            System.out.println("Entrada para status inválida. Mantendo o status anterior.");
+                        }
+                        
+                        servico.atualizarTarefa(idTarefaAtualizar, novoTitulo, novaDescricao, completa);
+                        System.out.println("Tarefa atualizada com sucesso!");
                 }
 
 
@@ -76,35 +94,52 @@ public class AppToDoList {
                 case 5 -> {
                     System.out.print("ID da tarefa a pesquisar: ");
                     long idPesquisarTarefa = sc.nextLong();
+                    sc.nextLine();
 
                     boolean encontrada = false;
                     for (Tarefas tarefa : servico.listarTarefas()) {
                         if (tarefa.getId().equals(idPesquisarTarefa)) {
-                            System.out.println("Tarefa encontrada: " + tarefa);
+                            System.out.println("\n--- Tarefa Encontrada ---");
+                            String status = tarefa.isCompleta() ? "Concluída" : "Pendente";
+                            System.out.println("ID: " + tarefa.getId() +
+                                              " | Título: " + tarefa.getTitulo() +
+                                              " | Descrição: " + tarefa.getDescricao() +
+                                              " | Status: " + status);
                             encontrada = true;
-                            return;
+                            break;
+                            }
+                        }
+
+                        if (!encontrada) {
+                            System.out.println("Tarefa com o ID " + idPesquisarTarefa + " não encontrada.");
                         }
                     }
-
-                    if (!encontrada) {
-                        System.out.println("Tarefa com o ID " + idPesquisarTarefa + " não encontrada.");
+                        
+                case 6 -> {
+                    System.out.println("\n--- Tarefas Concluídas ---");
+                    List<Tarefas> tarefasConcluidas = new ArrayList<>();
+                    for (Tarefas tarefa : servico.listarTarefas()) {
+                        if (tarefa.isCompleta()) {
+                            tarefasConcluidas.add(tarefa);
+                        }
+                    }
+                    if (tarefasConcluidas.isEmpty()) {
+                        System.out.println("Nenhuma tarefa concluída.");
+                    } else {
+                        for (Tarefas t : tarefasConcluidas) {
+                            String status = t.isCompleta() ? "Concluída" : "Pendente";
+                            System.out.println("ID: " + t.getId() +
+                                              " | Título: " + t.getTitulo() +
+                                              " | Descrição: " + t.getDescricao() +
+                                              " | Status: " + status);
+                        }
                     }
                 }
                     
-                case 6 -> {
-                    List<Tarefas> concluidas = servico.listarTarefasConcluidas();
-                    if (concluidas.isEmpty()) {
-                        System.out.println("Nenhuma tarefa concluída.");
-                    } else {
-                        System.out.println("Tarefas concluídas:");
-                        concluidas.forEach(System.out::println);
-                        }
-                    }
-
-                    case 7 -> {
-                        System.out.println("Finalizando sistema...");
-                        return;
-                    }
+                case 7 -> {
+                    System.out.println("Finalizando sistema...");
+                    return;
+                }
 
                 default -> System.out.println("Opção inválida!");
             }
@@ -112,4 +147,5 @@ public class AppToDoList {
         }
 
     }
+
 }
