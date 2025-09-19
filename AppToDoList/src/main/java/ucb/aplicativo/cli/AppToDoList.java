@@ -25,7 +25,7 @@ public class AppToDoList {
             System.out.println("3 - Atualizar tarefa");
             System.out.println("4 - Remover tarefa");
             System.out.println("5 - Pesquisar tarefa");
-            System.out.println("6 - Tarefas concluidas");
+            System.out.println("6 - Tarefas completas");
             System.out.println("7 - Sair");
             System.out.print("Escolha a opcao: ");
             
@@ -50,7 +50,7 @@ public class AppToDoList {
                         System.out.println("Nenhuma tarefa encontrada.");
                     } else {
                         for (Tarefas t : tarefas) {
-                            String status = t.isCompleta() ? "Concluída" : "Pendente";
+                            String status = t.isCompleta() ? "Completa" : "Incompleta";
                             System.out.println("ID: " + t.getId() +
                                                " | Título: " + t.getTitulo() +
                                                " | Descrição: " + t.getDescricao() +
@@ -100,7 +100,7 @@ public class AppToDoList {
                     for (Tarefas tarefa : servico.listarTarefas()) {
                         if (tarefa.getId().equals(idPesquisarTarefa)) {
                             System.out.println("\n--- Tarefa Encontrada ---");
-                            String status = tarefa.isCompleta() ? "Concluída" : "Pendente";
+                            String status = tarefa.isCompleta() ? "Completa" : "Incompleta";
                             System.out.println("ID: " + tarefa.getId() +
                                               " | Título: " + tarefa.getTitulo() +
                                               " | Descrição: " + tarefa.getDescricao() +
@@ -116,7 +116,7 @@ public class AppToDoList {
                     }
                         
                 case 6 -> {
-                    System.out.println("\n--- Tarefas Concluídas ---");
+                    System.out.println("\n--- Tarefas Completas ---");
                     List<Tarefas> tarefasConcluidas = new ArrayList<>();
                     for (Tarefas tarefa : servico.listarTarefas()) {
                         if (tarefa.isCompleta()) {
@@ -124,10 +124,10 @@ public class AppToDoList {
                         }
                     }
                     if (tarefasConcluidas.isEmpty()) {
-                        System.out.println("Nenhuma tarefa concluída.");
+                        System.out.println("Nenhuma tarefa completa.");
                     } else {
                         for (Tarefas t : tarefasConcluidas) {
-                            String status = t.isCompleta() ? "Concluída" : "Pendente";
+                            String status = t.isCompleta() ? "Completa" : "Incompleta";
                             System.out.println("ID: " + t.getId() +
                                               " | Título: " + t.getTitulo() +
                                               " | Descrição: " + t.getDescricao() +
