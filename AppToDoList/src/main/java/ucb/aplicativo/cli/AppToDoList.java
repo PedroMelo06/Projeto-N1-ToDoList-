@@ -53,19 +53,21 @@ public class AppToDoList {
 
                 case 3 -> {
                     System.out.print("ID da tarefa a atualizar: ");
-                    int idTarefaAtualizar = sc.nextInt();
+                    long idTarefaAtualizar = sc.nextLong();
                     sc.nextLine();
                     System.out.print("Novo titulo: ");
                     String novoTitulo = sc.nextLine();
                     System.out.print("Nova descricao: ");
                     String novaDescricao = sc.nextLine();
-                    servico.atualizarTarefa(idTarefaAtualizar, novoTitulo, novaDescricao);
+                    Boolean completa = null;
+                    servico.atualizarTarefa(idTarefaAtualizar, novoTitulo, novaDescricao, completa);
                     System.out.println("Tarefa atualizada com sucesso!");
                 }
 
+
                 case 4 -> {
                     System.out.print("ID da tarefa a remover: ");
-                    int idRemoverTarefa = sc.nextInt();
+                    long idRemoverTarefa = sc.nextLong();
                     sc.nextLine();
                     servico.removerTarefa(idRemoverTarefa);
                     System.out.println("Tarefa removida com sucesso!");
@@ -73,21 +75,41 @@ public class AppToDoList {
 
                 case 5 -> {
                     System.out.print("ID da tarefa a pesquisar: ");
-                    int idPesquisarTarefa = sc.nextInt();
-                    sc.nextLine();
-                }
-                
-                case 6 -> {
-                    servico.listarTarefasConcluidas();
-                }
+                    long idPesquisarTarefa = sc.nextLong();
 
-                case 7 -> System.out.println("Finalizando sistema...");
+                    boolean encontrada = false;
+                    for (Tarefas tarefa : servico.listarTarefas()) {
+                        if (tarefa.getId().equals(idPesquisarTarefa)) {
+                            System.out.println("Tarefa encontrada: " + tarefa);
+                            encontrada = true;
+                            return;
+                        }
+                    }
+
+                    if (!encontrada) {
+                        System.out.println("Tarefa com o ID " + idPesquisarTarefa + " não encontrada.");
+                    }
+                }
+                    
+                case 6 -> {
+                    List<Tarefas> concluidas = servico.listarTarefasConcluidas();
+                    if (concluidas.isEmpty()) {
+                        System.out.println("Nenhuma tarefa concluída.");
+                    } else {
+                        System.out.println("Tarefas concluídas:");
+                        concluidas.forEach(System.out::println);
+                        }
+                    }
+
+                    case 7 -> {
+                        System.out.println("Finalizando sistema...");
+                        return;
+                    }
 
                 default -> System.out.println("Opção inválida!");
             }
 
-        } while(false);
+        }
 
-        sc.close();
     }
 }

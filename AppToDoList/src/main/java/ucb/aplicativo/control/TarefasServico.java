@@ -3,6 +3,7 @@ package ucb.aplicativo.control;
 import ucb.aplicativo.model.Tarefas;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TarefasServico {
     private List<Tarefas> tarefas = new ArrayList<>();
@@ -14,5 +15,6 @@ public class TarefasServico {
         tarefas.add(tarefa);
         return tarefa;
     }    
+
 }
     
